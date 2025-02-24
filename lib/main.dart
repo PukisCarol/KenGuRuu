@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+//tetsuojam ar veikia
 
 void main() {
   runApp(const MyApp());
