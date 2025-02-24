@@ -1,6 +1,7 @@
 # kenguruu
 
-A new Flutter project.
+Saviugdos programėlė, kuri leidžia vartotojui žymėtis dalykus, rašyti į dienorašti, naudotis tvarkaraščiu, sekti savo emocinę būklę, sekti savo mitybą, 
+sekti savo miegą. Programėlė skirta žmonėm, kurie nori gerinti save ir ugdyti gerus įpročius.
 
 ## Getting Started
 
