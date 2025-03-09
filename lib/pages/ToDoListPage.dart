@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'MyApp.dart';
+import '../MyApp.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class ToDoListPage extends StatefulWidget {
+  const ToDoListPage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<ToDoListPage> createState() => _ToDoListPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _ToDoListPageState extends State<ToDoListPage> {
   late TextEditingController controller;
   String task = '';
 
@@ -31,7 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
-      title: Text("Labas"),
+      title: Text("Užduočių sąrašas"),
       centerTitle: true,
     ),
     body: Container(
