@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kenguruu/pages/LogInPage.dart';
 
 import 'pages/ToDoListPage.dart';
 import 'NavigationBar.dart';
@@ -14,7 +15,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.cyan),
       ),
-      home: const NavigationBarApp(title: 'Flutter Demo Home Page'),
+      //home: const NavigationBarApp(title: 'Flutter Demo Home Page'),
+      home: const LogInPage(),
     );
   }
 }
