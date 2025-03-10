@@ -1,5 +1,10 @@
+//import 'dart:nativewrappers/_internal/vm/lib/internal_patch.dart';
+
 import 'package:flutter/material.dart';
+import 'package:kenguruu/pages/ToDoPageBox.dart';
 import '../MyApp.dart';
+import 'ToDoPageButton.dart';
+import 'ToDoPageBox.dart';
 
 class ToDoListPage extends StatefulWidget {
   const ToDoListPage({super.key, required this.title});
@@ -11,80 +16,65 @@ class ToDoListPage extends StatefulWidget {
 }
 
 class _ToDoListPageState extends State<ToDoListPage> {
-  late TextEditingController controller;
-  String task = '';
 
-  @override
-  void initState() {
-    super.initState();
+  final _controller = TextEditingController();
 
-    controller = TextEditingController();
+ List toDoList = [
+   ["kAZKAA", false],
+   ["opa ikrito", false],
+ ];
+
+ // checkbox was tapped
+ void checkBoxChanged(bool? value, int index) {
+   setState(() {
+     toDoList[index][1] =  !toDoList[index][1];
+   });
+ }
+
+ //Ideti new task
+  void saveNewTask() {
+   setState(() {
+     toDoList.add([_controller.text, false]);
+     _controller.clear();
+   });
+   Navigator.of(context).pop();
   }
 
+ // create a new task
+ void createNewTask() {
+   showDialog(
+       context: context,
+       builder: (context) {
+     return ButtonDialog(
+       controller: _controller,
+       onSave: saveNewTask,
+       onCancel: () => Navigator.of(context).pop(),
+     );
+   });
+ }
+
   @override
-  void dispose() {
-    controller.dispose();
-
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: Text("Užduočių sąrašas"),
-      centerTitle: true,
-    ),
-    body: Container(
-      padding: EdgeInsets.all(32),
-      child: Column (
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  'Uzduotys: ',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Text(task),
-            ],
-          ),
-          const SizedBox(height: 16),
-          ElevatedButton(
-            child: Text('Pridėti užduotį'),
-            onPressed: () async {
-              final task = await openDialog();
-              if(task == null || task.isEmpty) return;
-
-              setState(() => this.task = task);
-            },
-          ),
-        ],
-      )
-    )
-  );
-
-  Future<String?> openDialog() => showDialog<String>(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: Text('Uzduotis:'),
-      content: TextField(
-        autofocus: true,
-        decoration: InputDecoration(hintText: 'Irasykite uzduoti'),
-        controller: controller,
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey[200],
+      appBar: AppBar(
+        title: Text('Užduočių sąrašas'),
+        elevation: 0,
       ),
-        actions: [
-          TextButton(
-            onPressed: submit,
-            child: Text('Prideti'),
-          ),
-        ]
-    ),
-  );
-
-  void submit() {
-    Navigator.of(context).pop(controller.text);
+      floatingActionButton: FloatingActionButton(
+          onPressed: createNewTask,
+        child: Icon(Icons.add),
+      ),
+      body: ListView.builder(
+        itemCount: toDoList.length,
+        itemBuilder: (context, index) {
+          return MyTextBox(
+              taskName: toDoList[index][0],
+              taskCompleted: toDoList[index][1],
+              onChanged: (value) => checkBoxChanged(value, index),
+          );
+        }
+      ),
+    );
   }
-
 }

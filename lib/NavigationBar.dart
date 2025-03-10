@@ -45,7 +45,7 @@ class _NavigationBarAppState extends State<NavigationBarApp> {
         onTap: _navigateBottomBar,
         type: BottomNavigationBarType.fixed,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Užduočių sąrašas'),
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
         ],
