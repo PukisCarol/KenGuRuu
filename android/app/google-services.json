@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "576301422095",
+    "project_id": "kenguruu-d3874",
+    "storage_bucket": "kenguruu-d3874.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:576301422095:android:850b414794a9d67030b57a",
+        "android_client_info": {
+          "package_name": "com.example.kenguruu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnImRJmRi3P6zW1pi03O2sywnH4usTtOg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
