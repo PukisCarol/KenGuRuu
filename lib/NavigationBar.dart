@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'MyApp.dart';
 import 'pages/ToDoListPage.dart';
+import 'pages/LogInPage.dart';
+import 'pages/DiaryPage.dart';
 
 class NavigationBarApp extends StatefulWidget {
   const NavigationBarApp({super.key, required this.title});
@@ -21,13 +23,9 @@ class _NavigationBarAppState extends State<NavigationBarApp> {
   }
 
   final List<Widget> _pages = [
+    LogInPage(),
     ToDoListPage(title: 'Uzdtuoties sarasas'),
-    Center(
-      child: Text(
-        'Dar nepridetas puslapis :P',
-        style: TextStyle(fontSize: 50),
-      ),
-    ),
+    DiaryPage(title: 'Dienoraštis'),
     Center(
       child: Text(
         'Dar nepridetas puslapis :P',
@@ -45,9 +43,9 @@ class _NavigationBarAppState extends State<NavigationBarApp> {
         onTap: _navigateBottomBar,
         type: BottomNavigationBarType.fixed,
         items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'LogIn Langas'),
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Užduočių sąrašas'),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Dienoraštis'),
         ],
       ),
     );

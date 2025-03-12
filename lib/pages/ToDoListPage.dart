@@ -19,8 +19,8 @@ class _ToDoListPageState extends State<ToDoListPage> {
   final _controller = TextEditingController();
 
  List toDoList = [
-   ["kAZKAA", false],
-   ["opa ikrito", false],
+   ["Pirma užduotis", false],
+   ["Antra užduotis", false],
  ];
 
  // checkbox was tapped
