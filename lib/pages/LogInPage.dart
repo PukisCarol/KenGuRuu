@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kenguruu/Services/auth_services.dart';
+import 'package:kenguruu/pages/ToDoListPage.dart';
 //import '../MyApp.dart';
 
 
@@ -28,6 +31,9 @@ class LogInPage extends StatefulWidget{
 
 
 class _LogInPageState extends State<LogInPage> {
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,6 +80,7 @@ class _LogInPageState extends State<LogInPage> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20.0),
                         child: TextField(
+                          controller: _emailController,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Email',
@@ -94,6 +101,7 @@ class _LogInPageState extends State<LogInPage> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20.0),
                         child: TextField(
+                          controller: _passwordController,
                           obscureText: true,
                           decoration: InputDecoration(
                             border: InputBorder.none,
@@ -108,7 +116,19 @@ class _LogInPageState extends State<LogInPage> {
                   Container(
                     width: 100,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        bool isSuccess = await AuthService().signin(
+                            email: _emailController.text,
+                            password: _passwordController.text
+                        );
+                        if (isSuccess && context.mounted) {
+                          await Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) => const ToDoListPage(title: 'labas')
+                              )
+                          );
+                        }
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.pinkAccent.withOpacity(0.9),
                         shape: RoundedRectangleBorder(
@@ -150,6 +170,12 @@ class _LogInPageState extends State<LogInPage> {
   }
 }
 class RegistrationPage extends StatelessWidget {
+  RegistrationPage({super.key});
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _passwordController2 = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -199,6 +225,7 @@ class RegistrationPage extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20.0),
                         child: TextField(
+                          controller: _emailController,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Email',
@@ -219,6 +246,7 @@ class RegistrationPage extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20.0),
                         child: TextField(
+                          controller: _passwordController,
                           obscureText: true,
                           decoration: InputDecoration(
                             border: InputBorder.none,
@@ -240,6 +268,7 @@ class RegistrationPage extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20.0),
                         child: TextField(
+                          controller: _passwordController2,
                           obscureText: true,
                           decoration: InputDecoration(
                             border: InputBorder.none,
@@ -254,7 +283,22 @@ class RegistrationPage extends StatelessWidget {
                   Container(
                     width: 120,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () async{
+                         bool isSuccess = await AuthService().signup(
+                            email: _emailController.text,
+                            password: _passwordController.text,
+                             password2: _passwordController2.text
+                        );
+                         if (isSuccess && context.mounted) {
+                           await Navigator.of(context).push(
+                               MaterialPageRoute(
+                                   builder: (BuildContext context) => const ToDoListPage(title: 'labas')
+                               )
+                           );
+                         }
+
+
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.pinkAccent.withOpacity(0.9),
                         shape: RoundedRectangleBorder(

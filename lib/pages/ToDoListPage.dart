@@ -1,7 +1,6 @@
 //import 'dart:nativewrappers/_internal/vm/lib/internal_patch.dart';
 
 import 'package:flutter/material.dart';
-import '../MyApp.dart';
 import 'ToDoPageButton.dart';
 import 'ToDoPageBox.dart';
 

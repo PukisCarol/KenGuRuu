@@ -1,7 +1,5 @@
 
 import 'package:flutter/material.dart';
-import '../MyApp.dart';
-import 'ToDoPageDialogButtons.dart';
 
 class DiaryPage extends StatefulWidget {
   const DiaryPage({super.key, required this.title});

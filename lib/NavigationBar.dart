@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'MyApp.dart';
 import 'pages/ToDoListPage.dart';
 import 'pages/LogInPage.dart';
 import 'pages/DiaryPage.dart';

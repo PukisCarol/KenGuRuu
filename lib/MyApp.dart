@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kenguruu/pages/LogInPage.dart';
 
-import 'pages/ToDoListPage.dart';
 import 'NavigationBar.dart';
 
 class MyApp extends StatelessWidget {
