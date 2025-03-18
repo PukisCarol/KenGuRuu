@@ -27,128 +27,125 @@ class LogInPage extends StatefulWidget{
 }
 
 
-class _LogInPageState extends State<LogInPage>{
+class _LogInPageState extends State<LogInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
-        decoration: BoxDecoration(
-        gradient: LinearGradient(
-        colors: [
-        Colors.white,  // Švelni rožinė spalva
-        Colors.blue.shade100 // Šiek tiek intensyvesnė rožinė
-        ],
-        begin: Alignment.topLeft,  // Pradžia
-        end: Alignment.bottomRight,  // Pabaiga
-    ),
-    ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-            // Pridėti wellness tematikos paveikslėlį
-            Image.asset(
-            'assets/4534968.png',  // Nurodykite teisingą kelio pavadinimą
-            height: 150, // Pakeiskite pagal savo poreikius
-            width: 150, // Pakeiskite pagal savo poreikius
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.white,
+                Colors.blue.shade100,
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
-            SizedBox(height: 40),
-              Text(
-                'Log in',
-                style: TextStyle(
-                  fontSize: 50,
-                  color: Colors.pinkAccent.withOpacity(0.9),
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 40),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.pinkAccent.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Email',
-                        hintStyle: TextStyle(color: Colors.pinkAccent),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 20),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.pinkAccent.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: TextField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Password',
-                        hintStyle: TextStyle(color: Colors.pinkAccent),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 30),
-
-              Container(
-                width: 100,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.pinkAccent.withOpacity(0.9),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  child: Text(
-                    'log in',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 25),
-
-              Row(
+          ),
+          child: Center(
+            child: SingleChildScrollView( // Pridedame SingleChildScrollView
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Neturi paskyros? ', style: TextStyle(fontWeight: FontWeight.bold)),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => RegistrationPage()),
-                      );
-                    },
-                    child: Text('Registruokis!', style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+                  Image.asset(
+                    'assets/4534968.png',
+                    height: 150,
+                    width: 150,
+                  ),
+                  SizedBox(height: 40),
+                  Text(
+                    'Log in',
+                    style: TextStyle(
+                      fontSize: 50,
+                      color: Colors.pinkAccent.withOpacity(0.9),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 40),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.pinkAccent.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Email',
+                            hintStyle: TextStyle(color: Colors.pinkAccent),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.pinkAccent.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: TextField(
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Password',
+                            hintStyle: TextStyle(color: Colors.pinkAccent),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 30),
+                  Container(
+                    width: 100,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.pinkAccent.withOpacity(0.9),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      child: Text(
+                        'log in',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 25),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Neturi paskyros? ', style: TextStyle(fontWeight: FontWeight.bold)),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => RegistrationPage()),
+                          );
+                        },
+                        child: Text(
+                          'Registruokis!',
+                          style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),
-    ),
     );
   }
 }
@@ -157,10 +154,125 @@ class RegistrationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Registracija'),
+        title: Text('Grįžti atgal'),
       ),
-      body: Center(
-        child: Text('Čia bus registracijos forma'),
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.white,
+                Colors.blue.shade100,
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: Center(
+            child: SingleChildScrollView( // Pridedame SingleChildScrollView
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/4534968.png',
+                    height: 150,
+                    width: 150,
+                  ),
+                  SizedBox(height: 40),
+                  Text(
+                    'Register',
+                    style: TextStyle(
+                      fontSize: 50,
+                      color: Colors.pinkAccent.withOpacity(0.9),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 40),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.pinkAccent.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Email',
+                            hintStyle: TextStyle(color: Colors.pinkAccent),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.pinkAccent.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: TextField(
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Password',
+                            hintStyle: TextStyle(color: Colors.pinkAccent),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 30),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.pinkAccent.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: TextField(
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Repeat password',
+                            hintStyle: TextStyle(color: Colors.pinkAccent),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 40),
+                  Container(
+                    width: 120,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.pinkAccent.withOpacity(0.9),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      child: Text(
+                        'Register',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 25),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
