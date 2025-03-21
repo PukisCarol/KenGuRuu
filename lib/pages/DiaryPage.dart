@@ -11,6 +11,17 @@ class DiaryPage extends StatefulWidget {
 }
 
 class _DiaryPageState extends State<DiaryPage> {
+  final _controller = TextEditingController();
+
+  List diaryEntries = [
+
+  ];
+
+  void saveDiary() {
+    setState(() {
+      diaryEntries.add(_controller.text);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +32,17 @@ class _DiaryPageState extends State<DiaryPage> {
         elevation: 0,
       ),
         body: TextField(
+          controller: _controller,
           minLines: null,
           maxLines: null,
           expands: true,
-          maxLength: TextField.noMaxLength,
+          //maxLength: TextField.noMaxLength,
         ),
+      bottomSheet: Container(
+        child: ElevatedButton(
+            onPressed: saveDiary,
+            child: Text('Išsaugoti', textAlign: TextAlign.right)),
+      ),
     );
   }
 }

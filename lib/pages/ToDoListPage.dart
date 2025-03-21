@@ -18,8 +18,8 @@ class _ToDoListPageState extends State<ToDoListPage> {
   final _controller = TextEditingController();
 
  List toDoList = [
-   ["Pirma užduotis", false],
-   ["Antra užduotis", false],
+   //["Pirma užduotis", false],
+   //["Antra užduotis", false],
  ];
 
  // checkbox was tapped
@@ -36,6 +36,49 @@ class _ToDoListPageState extends State<ToDoListPage> {
      _controller.clear();
    });
    Navigator.of(context).pop();
+  }
+  
+  void deleteTask(int index) {
+   setState(() {
+     toDoList.removeAt(index);
+   });
+  }
+
+  void editTask(int index) {
+    String currentTaskName = toDoList[index][0];
+    TextEditingController _controllerNew = TextEditingController(text: currentTaskName);
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Redaguoti užduotį'),
+          content: TextField(
+            controller: _controllerNew,
+            decoration: InputDecoration(hintText: 'Įrašyti naują užduotį'),
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close dialog
+              },
+              child: Text('Atšaukti'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  // Find task and update
+                  toDoList[index][0] = _controllerNew.text;
+                  _controllerNew.clear();
+                });
+                Navigator.of(context).pop(); // Close dialog
+              },
+              child: Text('Išsaugoti'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
  // create a new task
@@ -70,6 +113,9 @@ class _ToDoListPageState extends State<ToDoListPage> {
               taskName: toDoList[index][0],
               taskCompleted: toDoList[index][1],
               onChanged: (value) => checkBoxChanged(value, index),
+              onDelete: (context) => deleteTask(index),
+              onEdit: (context) => editTask(index),
+              index: index,
           );
         }
       ),

@@ -4,12 +4,18 @@ class MyTextBox extends StatelessWidget {
   final String taskName;
   final bool taskCompleted;
   Function(bool?)? onChanged;
+  final void Function(int) onDelete;
+  final void Function(int) onEdit;
+  final int index;
 
   MyTextBox({
     super.key,
     required this.taskName,
     required this.taskCompleted,
     required this.onChanged,
+    required this.onDelete,
+    required this.onEdit,
+    required this.index,
   });
 
   @override
@@ -29,11 +35,33 @@ class MyTextBox extends StatelessWidget {
                   onChanged: onChanged,
                   activeColor: Colors.black,
               ),
-              Text(
-                taskName,
-                style: TextStyle(decoration: taskCompleted ? TextDecoration.lineThrough : TextDecoration.none),
+              Expanded(
+                child: Text(
+                  taskName,
+                  style: TextStyle(decoration: taskCompleted ? TextDecoration.lineThrough : TextDecoration.none, color: Colors.white),
+                ),
               ),
-            ]
+              PopupMenuButton(
+                  itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                    PopupMenuItem(
+                      value: 'Redaguoti',
+                      child: Text('Redaguoti'),
+                    ),
+                    PopupMenuItem(
+                      value: 'Ištrinti',
+                      child: Text('Ištrinti'),
+                    ),
+                  ],
+                icon: Icon(Icons.more_vert, color: Colors.white),
+                onSelected: (String choice) {
+                  if(choice == 'Redaguoti') {
+                    onEdit(index);
+                  } else if(choice == 'Ištrinti') {
+                    onDelete(index);
+                  }
+                },
+              ),
+            ],
           ),
         ),
     );

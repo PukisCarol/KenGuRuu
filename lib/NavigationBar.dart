@@ -22,7 +22,7 @@ class _NavigationBarAppState extends State<NavigationBarApp> {
   }
 
   final List<Widget> _pages = [
-    LogInPage(),
+    //LogInPage(),
     ToDoListPage(title: 'Uzdtuoties sarasas'),
     DiaryPage(title: 'Dienoraštis'),
     Center(
@@ -42,7 +42,7 @@ class _NavigationBarAppState extends State<NavigationBarApp> {
         onTap: _navigateBottomBar,
         type: BottomNavigationBarType.fixed,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'LogIn Langas'),
+          //BottomNavigationBarItem(icon: Icon(Icons.home), label: 'LogIn Langas'),
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Užduočių sąrašas'),
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Dienoraštis'),
         ],

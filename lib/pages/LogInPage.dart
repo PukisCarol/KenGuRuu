@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kenguruu/Services/auth_services.dart';
 import 'package:kenguruu/pages/ToDoListPage.dart';
+import '../NavigationBar.dart';
 //import '../MyApp.dart';
 
 
@@ -124,7 +125,7 @@ class _LogInPageState extends State<LogInPage> {
                         if (isSuccess && context.mounted) {
                           await Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (BuildContext context) => const ToDoListPage(title: 'labas')
+                                  builder: (BuildContext context) => const NavigationBarApp(title: 'labas')
                               )
                           );
                         }

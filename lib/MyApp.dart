@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'pages/LogInPage.dart';
 import 'NavigationBar.dart';
 
 class MyApp extends StatelessWidget {
@@ -13,8 +13,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.cyan),
       ),
-      home: const NavigationBarApp(title: 'Flutter Demo Home Page'),
-      //home: const LogInPage(),
+      //home: const NavigationBarApp(title: 'Flutter Demo Home Page'),
+      home: const LogInPage(),
     );
   }
 }
