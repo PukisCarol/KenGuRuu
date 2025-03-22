@@ -91,7 +91,7 @@ class _DiaryPageState extends State<DiaryPage> {
         ),
       floatingActionButton: FloatingActionButton(
         onPressed: saveDiary,
-        child: Icon(Icons.save),
+        child: Icon(Icons.add_circle),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
