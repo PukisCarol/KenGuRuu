@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kenguruu/pages/CalendarPage.dart';
 import 'pages/ToDoListPage.dart';
 import 'pages/LogInPage.dart';
 import 'pages/DiaryPage.dart';
+import 'pages/ProfilePage.dart';
 
 class NavigationBarApp extends StatefulWidget {
   const NavigationBarApp({super.key, required this.title});
@@ -25,12 +27,8 @@ class _NavigationBarAppState extends State<NavigationBarApp> {
     //LogInPage(),
     ToDoListPage(title: 'Uzdtuoties sarasas'),
     DiaryPage(title: 'Dienoraštis'),
-    Center(
-      child: Text(
-        'Dar nepridetas puslapis :P',
-        style: TextStyle(fontSize: 50),
-      ),
-    ),
+    CalendarPage(title: 'Kalendorius'),
+    ProfilePage(title: 'Profilis'),
   ];
 
   @override
@@ -45,6 +43,8 @@ class _NavigationBarAppState extends State<NavigationBarApp> {
           //BottomNavigationBarItem(icon: Icon(Icons.home), label: 'LogIn Langas'),
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Užduočių sąrašas'),
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Dienoraštis'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Kalendorius'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Profilis'),
         ],
       ),
     );
