@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kenguruu/pages/ToDoPageDialogButtons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../Services/auth_services.dart';
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key, required this.title});
 
@@ -18,6 +20,10 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
     user = FirebaseAuth.instance.currentUser;
+  }
+
+  Future<void> signout() async {
+    await AuthService().signout(context: context);
   }
 
   @override
@@ -52,7 +58,14 @@ class _ProfilePageState extends State<ProfilePage> {
             Text(
               registrationDate ?? 'Nerasta data',
               style: TextStyle(fontSize: 20, color: Colors.grey[800]),
-            )
+            ),
+            ElevatedButton(
+              onPressed: signout, // Kviečia signout
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+              ),
+              child: Text('Atsijungti')
+            ),
           ],
         ),
       ),

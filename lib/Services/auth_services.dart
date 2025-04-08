@@ -2,6 +2,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:kenguruu/LogIn.dart';
+
+import '../pages/LogInPage.dart';
 
 class AuthService{
   Future<bool> signup({
@@ -77,5 +80,18 @@ class AuthService{
     }
     return false;
 
+  }
+
+  Future<void> signout({
+    required BuildContext context
+  }) async {
+    await FirebaseAuth.instance.signOut();
+    await Future.delayed(const Duration(seconds: 1));
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => const  LogInPage()
+        )
+    );
   }
 }
