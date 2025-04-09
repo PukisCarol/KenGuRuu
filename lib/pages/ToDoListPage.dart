@@ -1,12 +1,12 @@
 //import 'dart:nativewrappers/_internal/vm/lib/internal_patch.dart';
 
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'ToDoPageButton.dart';
 import 'ToDoPageBox.dart';
 
 class ToDoListPage extends StatefulWidget {
   const ToDoListPage({super.key, required this.title});
-
   final String title;
 
   @override
@@ -14,34 +14,27 @@ class ToDoListPage extends StatefulWidget {
 }
 
 class _ToDoListPageState extends State<ToDoListPage> {
-
   final _controller = TextEditingController();
+  List toDoList = [];
 
- List toDoList = [
-   //["Pirma užduotis", false],
-   //["Antra užduotis", false],
- ];
-
- // checkbox was tapped
- void checkBoxChanged(bool? value, int index) {
-   setState(() {
-     toDoList[index][1] =  !toDoList[index][1];
-   });
- }
-
- //Ideti new task
-  void saveNewTask() {
-   setState(() {
-     toDoList.add([_controller.text, false]);
-     _controller.clear();
-   });
-   Navigator.of(context).pop();
+  void checkBoxChanged(bool? value, int index) {
+    setState(() {
+      toDoList[index][1] = !toDoList[index][1];
+    });
   }
-  
+
+  void saveNewTask() {
+    setState(() {
+      toDoList.add([_controller.text, false]);
+      _controller.clear();
+    });
+    Navigator.of(context).pop();
+  }
+
   void deleteTask(int index) {
-   setState(() {
-     toDoList.removeAt(index);
-   });
+    setState(() {
+      toDoList.removeAt(index);
+    });
   }
 
   void editTask(int index) {
@@ -59,19 +52,16 @@ class _ToDoListPageState extends State<ToDoListPage> {
           ),
           actions: [
             ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close dialog
-              },
+              onPressed: () => Navigator.of(context).pop(),
               child: Text('Atšaukti'),
             ),
             ElevatedButton(
               onPressed: () {
                 setState(() {
-                  // Find task and update
                   toDoList[index][0] = _controllerNew.text;
                   _controllerNew.clear();
                 });
-                Navigator.of(context).pop(); // Close dialog
+                Navigator.of(context).pop();
               },
               child: Text('Išsaugoti'),
             ),
@@ -81,44 +71,95 @@ class _ToDoListPageState extends State<ToDoListPage> {
     );
   }
 
- // create a new task
- void createNewTask() {
-   showDialog(
-       context: context,
-       builder: (context) {
-     return ButtonDialog(
-       controller: _controller,
-       onSave: saveNewTask,
-       onCancel: () => Navigator.of(context).pop(),
-     );
-   });
- }
+  void createNewTask() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return ButtonDialog(
+          controller: _controller,
+          onSave: saveNewTask,
+          onCancel: () => Navigator.of(context).pop(),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
-      appBar: AppBar(
-        title: Text('Užduočių sąrašas'),
-        elevation: 0,
+      // Gradient background for the entire page
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.blue.shade100, Colors.blue.shade300],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              // Title
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'To do list',
+                    style: TextStyle(
+                      color: Colors.blueAccent,
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.5,
+                    ),
+                  ),
+                ),
+              ),
+              // Task list
+              Expanded(
+                child: ListView.builder(
+                  itemCount: toDoList.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                          child: Container(
+                            child: MyTextBox(
+                              taskName: toDoList[index][0],
+                              taskCompleted: toDoList[index][1],
+                              onChanged: (value) => checkBoxChanged(value, index),
+                              onDelete: (context) => deleteTask(index),
+                              onEdit: (context) => editTask(index),
+                              index: index,
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
+      // Transparent floating action button
+      floatingActionButton: Container(
+        margin: EdgeInsets.only(bottom: 20, right: 10),
+        child: FloatingActionButton(
           onPressed: createNewTask,
-        child: Icon(Icons.add),
+          backgroundColor: Colors.white.withOpacity(0.2), // Permatomas fonas
+          child: Icon(Icons.add, color: Colors.blue),
+          elevation: 0, // Pašalinti šešėlį, jei nenori
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30), // Apvalūs kampai
+          ),
+        ),
       ),
-      body: ListView.builder(
-        itemCount: toDoList.length,
-        itemBuilder: (context, index) {
-          return MyTextBox(
-              taskName: toDoList[index][0],
-              taskCompleted: toDoList[index][1],
-              onChanged: (value) => checkBoxChanged(value, index),
-              onDelete: (context) => deleteTask(index),
-              onEdit: (context) => editTask(index),
-              index: index,
-          );
-        }
-      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
