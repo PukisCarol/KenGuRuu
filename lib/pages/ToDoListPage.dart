@@ -8,12 +8,12 @@ import '../logic/ToDoListLogic.dart';
 
 class ToDoListPage extends StatefulWidget {
   final String title;
-  final ToDoController? controller; // <-- naujas parametras testavimui
+  final ToDoController? controller;
 
   const ToDoListPage({
     super.key,
     required this.title,
-    this.controller, // <-- leidžia naudoti stub testuose
+    this.controller,
   });
 
   @override
@@ -27,7 +27,7 @@ class _ToDoListPageState extends State<ToDoListPage> {
   @override
   void initState() {
     super.initState();
-    toDoController = widget.controller ?? ToDoController(); // naudok stub jei paduotas
+    toDoController = widget.controller ?? ToDoController();
   }
 
   void checkBoxChanged(bool? value, int index) {
@@ -65,10 +65,12 @@ class _ToDoListPageState extends State<ToDoListPage> {
           ),
           actions: [
             ElevatedButton(
+              key: Key('cancel_edit_button'),
               onPressed: () => Navigator.of(context).pop(),
               child: Text('Atšaukti'),
             ),
             ElevatedButton(
+              key: Key('save_edit_button'),
               onPressed: () {
                 setState(() {
                   toDoController.editTask(index, _controllerNew.text);
@@ -100,7 +102,6 @@ class _ToDoListPageState extends State<ToDoListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Gradient background for the entire page
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -112,7 +113,6 @@ class _ToDoListPageState extends State<ToDoListPage> {
         child: SafeArea(
           child: Column(
             children: [
-              // Title
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Align(
@@ -128,7 +128,6 @@ class _ToDoListPageState extends State<ToDoListPage> {
                   ),
                 ),
               ),
-              // Task list
               Expanded(
                 child: ListView.builder(
                   itemCount: toDoController.toDoList.length,
@@ -159,16 +158,16 @@ class _ToDoListPageState extends State<ToDoListPage> {
           ),
         ),
       ),
-      // Transparent floating action button
       floatingActionButton: Container(
         margin: EdgeInsets.only(bottom: 20, right: 10),
         child: FloatingActionButton(
+          key: Key('add_task_button'),
           onPressed: createNewTask,
-          backgroundColor: Colors.white.withOpacity(0.2), // Permatomas fonas
+          backgroundColor: Colors.white.withOpacity(0.2),
           child: Icon(Icons.add, color: Colors.blue),
-          elevation: 0, // Pašalinti šešėlį, jei nenori
+          elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30), // Apvalūs kampai
+            borderRadius: BorderRadius.circular(30),
           ),
         ),
       ),

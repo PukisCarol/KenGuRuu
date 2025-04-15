@@ -1,34 +1,36 @@
 import 'package:kenguruu/logic/ToDoListLogic.dart';
 
-class StubToDoController extends ToDoController {
-  final List<List<dynamic>> _stubList = [];
-
-  StubToDoController() {
-    addTask('Pirmoji užduotis');
-    addTask('Antroji užduotis');
-    toggleTaskCompletion(1); // pažymim antrą užduotį kaip atliktą
-  }
+class StubToDoController implements ToDoController {
+  List<List<dynamic>> _stubTasks = [
+    ['Pirmoji užduotis', false],
+    ['Antroji užduotis', true],
+  ];
 
   @override
-  List get toDoList => _stubList;
+  List<List<dynamic>> get toDoList => _stubTasks;
 
   @override
-  void addTask(String taskName) {
-    _stubList.add([taskName, false]);
-  }
-
-  @override
-  void deleteTask(int index) {
-    _stubList.removeAt(index);
-  }
-
-  @override
-  void editTask(int index, String newTaskName) {
-    _stubList[index][0] = newTaskName;
+  set toDoList(List<List<dynamic>> value) {
+    _stubTasks = value;
   }
 
   @override
   void toggleTaskCompletion(int index) {
-    _stubList[index][1] = !_stubList[index][1];
+    _stubTasks[index][1] = !_stubTasks[index][1];
+  }
+
+  @override
+  void addTask(String taskName) {
+    _stubTasks.add([taskName, false]);
+  }
+
+  @override
+  void deleteTask(int index) {
+    _stubTasks.removeAt(index);
+  }
+
+  @override
+  void editTask(int index, String newName) {
+    _stubTasks[index][0] = newName;
   }
 }

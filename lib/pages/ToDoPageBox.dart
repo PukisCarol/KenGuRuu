@@ -45,14 +45,23 @@ class MyTextBox extends StatelessWidget {
             ),
           ),
           trailing: PopupMenuButton<String>(
+            key: Key('popup_menu_$index'), // Pridėtas Key
             onSelected: (value) {
               if (value == 'edit') onEdit?.call(context);
               if (value == 'delete') onDelete?.call(context);
             },
             icon: Icon(Icons.more_vert, color: Colors.black),
             itemBuilder: (BuildContext context) => [
-              PopupMenuItem(value: 'edit', child: Text('Redaguoti')),
-              PopupMenuItem(value: 'delete', child: Text('Ištrinti')),
+              PopupMenuItem(
+                value: 'edit',
+                child: Text('Redaguoti'),
+                key: Key('edit_menu_item_$index'), // Pridėtas Key
+              ),
+              PopupMenuItem(
+                value: 'delete',
+                child: Text('Ištrinti'),
+                key: Key('delete_menu_item_$index'), // Pridėtas Key
+              ),
             ],
           ),
         ),

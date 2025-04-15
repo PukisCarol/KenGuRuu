@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:kenguruu/pages/ToDoPageDialogButtons.dart';
 
 class ButtonDialog extends StatelessWidget {
-  final controller;
-  VoidCallback onSave;
-  VoidCallback onCancel;
+  final TextEditingController controller;
+  final VoidCallback onSave;
+  final VoidCallback onCancel;
 
-  ButtonDialog({
+  const ButtonDialog({
     super.key,
     required this.controller,
     required this.onSave,
@@ -22,7 +22,6 @@ class ButtonDialog extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            // get user input
             TextField(
               controller: controller,
               decoration: InputDecoration(
@@ -30,21 +29,24 @@ class ButtonDialog extends StatelessWidget {
                 hintText: "Pridėti užduotį...",
               ),
             ),
-            //buttons save and cancel
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                //Idejimo button
-                MyButton(text: "Įdėti", onPressed: onSave),
-
+                MyButton(
+                  key: Key('save_button'), // Pridėtas Key
+                  text: "Įdėti",
+                  onPressed: onSave,
+                ),
                 const SizedBox(width: 8),
-
-                //Atsaukimo button
-                MyButton(text: "Atšaukti", onPressed: onCancel),
+                MyButton(
+                  key: Key(' cancel_button'), // Pridėtas Key
+                  text: "Atšaukti",
+                  onPressed: onCancel,
+                ),
               ],
-            )
+            ),
           ],
-        )
+        ),
       ),
     );
   }

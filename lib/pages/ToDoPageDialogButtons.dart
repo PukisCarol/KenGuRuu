@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 
 class MyButton extends StatelessWidget {
   final String text;
-  VoidCallback onPressed;
+  final VoidCallback onPressed;
+  final Key? key; // Pridėtas Key parametras
 
-  MyButton({
-    super.key,
+  const MyButton({
+    this.key,
     required this.text,
     required this.onPressed,
-});
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
