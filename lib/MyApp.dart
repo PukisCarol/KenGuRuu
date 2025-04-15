@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kenguruu/pages/ToDoListPage.dart';
 import 'pages/LogInPage.dart';
 import 'NavigationBar.dart';
 
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
       ),
       //home: const NavigationBarApp(title: 'Flutter Demo Home Page'),
       home: const LogInPage(),
+      //home: const ToDoListPage(title: 'ToDoList'), // DARANT INTEGRATION TESTUS ATKOMENTUOTI SITA IR UZKOMENTUOTI home: const LogInPage()
     );
   }
 }

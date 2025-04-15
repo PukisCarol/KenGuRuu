@@ -81,6 +81,7 @@ class _LogInPageState extends State<LogInPage> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20.0),
                         child: TextField(
+                          key: Key('emailField'),
                           controller: _emailController,
                           decoration: InputDecoration(
                             border: InputBorder.none,
@@ -102,6 +103,7 @@ class _LogInPageState extends State<LogInPage> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20.0),
                         child: TextField(
+                          key: Key('passwordField'),
                           controller: _passwordController,
                           obscureText: true,
                           decoration: InputDecoration(
@@ -117,6 +119,7 @@ class _LogInPageState extends State<LogInPage> {
                   Container(
                     width: 100,
                     child: ElevatedButton(
+                      key: Key('signInButton'),
                       onPressed: () async {
                         bool isSuccess = await AuthService().signin(
                             email: _emailController.text,

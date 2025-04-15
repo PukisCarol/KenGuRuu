@@ -42,6 +42,12 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  integration_test:
+    sdk: flutter
+  mockito: ^5.4.2
+  firebase_core_platform_interface: ^5.0.0
+  firebase_auth_platform_interface: ^7.0.0
+  firebase_auth_mocks: ^0.14.1
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
