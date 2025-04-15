@@ -7,8 +7,14 @@ import 'ToDoPageBox.dart';
 import '../logic/ToDoListLogic.dart';
 
 class ToDoListPage extends StatefulWidget {
-  const ToDoListPage({super.key, required this.title});
   final String title;
+  final ToDoController? controller; // <-- naujas parametras testavimui
+
+  const ToDoListPage({
+    super.key,
+    required this.title,
+    this.controller, // <-- leidžia naudoti stub testuose
+  });
 
   @override
   State<ToDoListPage> createState() => _ToDoListPageState();
@@ -16,8 +22,13 @@ class ToDoListPage extends StatefulWidget {
 
 class _ToDoListPageState extends State<ToDoListPage> {
   final _controller = TextEditingController();
-  final ToDoController toDoController = ToDoController();
-  List toDoList = [];
+  late final ToDoController toDoController;
+
+  @override
+  void initState() {
+    super.initState();
+    toDoController = widget.controller ?? ToDoController(); // naudok stub jei paduotas
+  }
 
   void checkBoxChanged(bool? value, int index) {
     setState(() {
