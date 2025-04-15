@@ -13,7 +13,6 @@ import 'package:kenguruu/NavigationBar.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-
   testWidgets("full flow - ToDo and Diary page test", (WidgetTester tester) async {
     await tester.pumpWidget(MaterialApp(
       home: NavigationBarApp(title: 'Navigacija'),
