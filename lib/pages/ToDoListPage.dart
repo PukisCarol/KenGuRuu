@@ -4,10 +4,17 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'ToDoPageButton.dart';
 import 'ToDoPageBox.dart';
+import '../logic/ToDoListLogic.dart';
 
 class ToDoListPage extends StatefulWidget {
-  const ToDoListPage({super.key, required this.title});
   final String title;
+  final ToDoController? controller; // <-- naujas parametras testavimui
+
+  const ToDoListPage({
+    super.key,
+    required this.title,
+    this.controller, // <-- leidžia naudoti stub testuose
+  });
 
   @override
   State<ToDoListPage> createState() => _ToDoListPageState();
@@ -15,17 +22,23 @@ class ToDoListPage extends StatefulWidget {
 
 class _ToDoListPageState extends State<ToDoListPage> {
   final _controller = TextEditingController();
-  List toDoList = [];
+  late final ToDoController toDoController;
+
+  @override
+  void initState() {
+    super.initState();
+    toDoController = widget.controller ?? ToDoController(); // naudok stub jei paduotas
+  }
 
   void checkBoxChanged(bool? value, int index) {
     setState(() {
-      toDoList[index][1] = !toDoList[index][1];
+      toDoController.toggleTaskCompletion(index);
     });
   }
 
   void saveNewTask() {
     setState(() {
-      toDoList.add([_controller.text, false]);
+      toDoController.addTask(_controller.text);
       _controller.clear();
     });
     Navigator.of(context).pop();
@@ -33,12 +46,12 @@ class _ToDoListPageState extends State<ToDoListPage> {
 
   void deleteTask(int index) {
     setState(() {
-      toDoList.removeAt(index);
+      toDoController.deleteTask(index);
     });
   }
 
   void editTask(int index) {
-    String currentTaskName = toDoList[index][0];
+    String currentTaskName = toDoController.toDoList[index][0];
     TextEditingController _controllerNew = TextEditingController(text: currentTaskName);
 
     showDialog(
@@ -58,7 +71,7 @@ class _ToDoListPageState extends State<ToDoListPage> {
             ElevatedButton(
               onPressed: () {
                 setState(() {
-                  toDoList[index][0] = _controllerNew.text;
+                  toDoController.editTask(index, _controllerNew.text);
                   _controllerNew.clear();
                 });
                 Navigator.of(context).pop();
@@ -118,7 +131,7 @@ class _ToDoListPageState extends State<ToDoListPage> {
               // Task list
               Expanded(
                 child: ListView.builder(
-                  itemCount: toDoList.length,
+                  itemCount: toDoController.toDoList.length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
@@ -128,8 +141,8 @@ class _ToDoListPageState extends State<ToDoListPage> {
                           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                           child: Container(
                             child: MyTextBox(
-                              taskName: toDoList[index][0],
-                              taskCompleted: toDoList[index][1],
+                              taskName: toDoController.toDoList[index][0],
+                              taskCompleted: toDoController.toDoList[index][1],
                               onChanged: (value) => checkBoxChanged(value, index),
                               onDelete: (context) => deleteTask(index),
                               onEdit: (context) => editTask(index),
