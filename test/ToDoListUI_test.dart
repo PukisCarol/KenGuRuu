@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import '../lib/pages/ToDoListPage.dart'; // Update to your path
+import 'package:kenguruu/pages/ToDoListPage.dart';
 
 void main() {
 
@@ -10,6 +10,15 @@ void main() {
         home: ToDoListPage(title: 'Test Title'),
       ),
     );
+    await tester.tap(find.byIcon(Icons.add));
+    await tester.pumpAndSettle();
+
+    // Enter text in the dialog's text field
+    await tester.enterText(find.byType(TextField), 'No Test Task');
+
+    // Tap the save button
+    await tester.tap(find.text('Atšaukti'));
+    await tester.pumpAndSettle();
 
     // Tap the floating action button to open dialog
     await tester.tap(find.byIcon(Icons.add));
@@ -90,6 +99,19 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Old Task Name'), findsOneWidget);
+
+    // Open dropdown menu
+    await tester.tap(find.byIcon(Icons.more_vert).first);
+    await tester.pumpAndSettle();
+
+    // Tap the "Edit" option
+    await tester.tap(find.text('Redaguoti'));
+    await tester.pumpAndSettle();
+
+    // Replace the text
+    await tester.enterText(find.byType(TextField), 'Updated Task Name');
+    await tester.tap(find.text('Atšaukti'));
+    await tester.pumpAndSettle();
 
     // Open dropdown menu
     await tester.tap(find.byIcon(Icons.more_vert).first);

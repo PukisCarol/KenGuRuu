@@ -9,13 +9,18 @@ import 'package:firebase_core_platform_interface/firebase_core_platform_interfac
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:mockito/mockito.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:kenguruu/NavigationBar.dart';
 
 void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets("full flow - add check and uncheck edit delete", (WidgetTester tester) async {
-
-    await tester.pumpWidget(MyApp()); // Replace with your actual app widget
+  testWidgets("full flow - ToDo and Diary page test", (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(
+      home: NavigationBarApp(title: 'Navigacija'),
+    ));
     await tester.pumpAndSettle();
+
+    // ======== ToDoListPage Tests ========
 
     // Add a task
     await tester.tap(find.byIcon(Icons.add));
@@ -25,12 +30,11 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Integration Task'), findsOneWidget);
 
-    // Find the checkbox and tap to mark complete
+    // Check the task
     Finder checkBox = find.byType(Checkbox).first;
     await tester.tap(checkBox);
     await tester.pumpAndSettle();
 
-    // Optionally, verify checkbox state is true
     Checkbox cbWidget = tester.widget(checkBox);
     expect(cbWidget.value, true);
 
@@ -40,21 +44,38 @@ void main() {
     cbWidget = tester.widget(checkBox);
     expect(cbWidget.value, false);
 
-    // Tap edit (using text "Redaguoti" from dropdown if applicable)
+    // Edit the task
     await tester.tap(find.byIcon(Icons.more_vert).first);
     await tester.pumpAndSettle();
     await tester.tap(find.text('Redaguoti'));
     await tester.pumpAndSettle();
-    await tester.enterText(find.byType(TextField), 'Updated Task');
+    await tester.enterText(find.byType(TextField).last, 'Updated Task');
     await tester.tap(find.text('Išsaugoti'));
     await tester.pumpAndSettle();
     expect(find.text('Updated Task'), findsOneWidget);
 
-    // Delete the task (using dropdown "Ištrinti")
+    // Delete the task
     await tester.tap(find.byIcon(Icons.more_vert).first);
     await tester.pumpAndSettle();
     await tester.tap(find.text('Ištrinti'));
     await tester.pumpAndSettle();
     expect(find.text('Updated Task'), findsNothing);
+
+    // ======== DiaryPage Tests ========
+
+    // Navigate to DiaryPage (index 1 in the bottom navigation bar)
+    await tester.tap(find.byIcon(Icons.home).at(1)); // Index 1 = Diary
+    await tester.pumpAndSettle();
+
+    // Enter text into the diary input
+    String diaryText = 'My diary entry for testing';
+    await tester.enterText(find.byType(TextField), diaryText);
+    await tester.pumpAndSettle();
+    expect(find.text(diaryText), findsOneWidget);
+
+    // Press delete (eraser) button
+    await tester.tap(find.byIcon(Icons.delete));
+    await tester.pumpAndSettle();
+    expect(find.text(diaryText), findsNothing); // Expect it to be cleared
   });
 }
