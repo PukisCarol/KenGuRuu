@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../lib/logic/ToDoListLogic.dart';
+import 'package:kenguruu/logic/ToDoListLogic.dart';
 
 void main() {
   group('ToDoController', () {
@@ -10,11 +10,12 @@ void main() {
     });
 
     test('should add a new task', () {
-      print('Before adding: ${controller.toDoList}');
-      controller.addTask('Test Task');
-      print('After adding: ${controller.toDoList}');
-      expect(controller.toDoList.length, 1);
-      expect(controller.toDoList[0], ['Test Task', false]);
+      final tasks = [ 'kazkas', 'kazkas dar', 'blabla'];
+      for(int i = 0; i < tasks.length; i++) {
+        controller.addTask(tasks[i]);
+        expect(controller.toDoList.length, i+1);
+        expect(controller.toDoList[i], [tasks[i], false]);
+      }
     });
 
     test('should delete a task', () {

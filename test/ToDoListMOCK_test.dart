@@ -50,13 +50,12 @@ void main() {
     await tester.pumpWidget(createWidgetUnderTest());
     await tester.pumpAndSettle();
 
-    // Spaudžiame FAB mygtuką
+    // Spaudžiame add mygtuką
     await tester.tap(find.byKey(Key('add_task_button')));
     await tester.pumpAndSettle();
 
     // Įvedame tekstą
     await tester.enterText(find.byType(TextField), 'Nauja užduotis');
-    // Spaudžiame "Įdėti" mygtuką
     await tester.tap(find.byKey(Key('save_button')));
     await tester.pumpAndSettle();
 
