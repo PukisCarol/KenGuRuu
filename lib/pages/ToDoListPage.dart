@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'ToDoPageButton.dart';
 import 'ToDoPageBox.dart';
 import '../logic/ToDoListLogic.dart';
+import '../Services/firestore_services.dart';
 
 class ToDoListPage extends StatefulWidget {
   final String title;
@@ -23,59 +24,52 @@ class ToDoListPage extends StatefulWidget {
 class _ToDoListPageState extends State<ToDoListPage> {
   final _controller = TextEditingController();
   late final ToDoController toDoController;
+  final firestore = FirestoreService();
+  List<Map<String, dynamic>> tasks = [];
 
   @override
   void initState() {
     super.initState();
-    toDoController = widget.controller ?? ToDoController();
-  }
-
-  void checkBoxChanged(bool? value, int index) {
-    setState(() {
-      toDoController.toggleTaskCompletion(index);
+    firestore.getTasks().listen((loadedTasks) {
+      setState(() {
+        tasks = loadedTasks;
+      });
     });
   }
 
-  void saveNewTask() {
-    setState(() {
-      toDoController.addTask(_controller.text);
-      _controller.clear();
-    });
+  void checkBoxChanged(bool? value, int index) async {
+    await firestore.toggleTaskCompleted(tasks[index]['id'], value ?? false);
+  }
+
+  void saveNewTask() async {
+    if (_controller.text.trim().isEmpty) return;
+    await firestore.addTask(_controller.text);
+    _controller.clear();
     Navigator.of(context).pop();
   }
 
-  void deleteTask(int index) {
-    setState(() {
-      toDoController.deleteTask(index);
-    });
+  void deleteTask(int index) async {
+    await firestore.deleteTask(tasks[index]['id']);
   }
 
   void editTask(int index) {
-    String currentTaskName = toDoController.toDoList[index][0];
-    TextEditingController _controllerNew = TextEditingController(text: currentTaskName);
+    TextEditingController editController =
+    TextEditingController(text: tasks[index]['task']);
 
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           title: Text('Redaguoti užduotį'),
-          content: TextField(
-            controller: _controllerNew,
-            decoration: InputDecoration(hintText: 'Įrašyti naują užduotį'),
-          ),
+          content: TextField(controller: editController),
           actions: [
-            ElevatedButton(
-              key: Key('cancel_edit_button'),
+            TextButton(
               onPressed: () => Navigator.of(context).pop(),
               child: Text('Atšaukti'),
             ),
-            ElevatedButton(
-              key: Key('save_edit_button'),
-              onPressed: () {
-                setState(() {
-                  toDoController.editTask(index, _controllerNew.text);
-                  _controllerNew.clear();
-                });
+            TextButton(
+              onPressed: () async {
+                await firestore.updateTask(tasks[index]['id'], editController.text);
                 Navigator.of(context).pop();
               },
               child: Text('Išsaugoti'),
@@ -130,7 +124,7 @@ class _ToDoListPageState extends State<ToDoListPage> {
               ),
               Expanded(
                 child: ListView.builder(
-                  itemCount: toDoController.toDoList.length,
+                  itemCount: tasks.length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
@@ -140,8 +134,8 @@ class _ToDoListPageState extends State<ToDoListPage> {
                           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                           child: Container(
                             child: MyTextBox(
-                              taskName: toDoController.toDoList[index][0],
-                              taskCompleted: toDoController.toDoList[index][1],
+                              taskName: tasks[index]['task'],
+                              taskCompleted: tasks[index]['completed'],
                               onChanged: (value) => checkBoxChanged(value, index),
                               onDelete: (context) => deleteTask(index),
                               onEdit: (context) => editTask(index),
