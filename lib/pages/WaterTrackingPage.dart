@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class WaterTrackingPage extends StatefulWidget {
   const WaterTrackingPage({super.key, required String title});
@@ -11,12 +13,15 @@ class WaterTrackingPage extends StatefulWidget {
 class _WaterTrackingPageState extends State<WaterTrackingPage> {
   final List<Map<String, dynamic>> _waterRecords = [];
   final TextEditingController _controller = TextEditingController();
+  final user = FirebaseAuth.instance.currentUser;
   String _currentDate = '';
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
     _setCurrentDate();
+    _loadWaterData();
   }
 
   void _setCurrentDate() {
@@ -24,20 +29,60 @@ class _WaterTrackingPageState extends State<WaterTrackingPage> {
     _currentDate = DateFormat('yyyy-MM-dd').format(now);
   }
 
-  void _addWater() {
+  Future<void> _loadWaterData() async {
+    if (user == null) return;
+
+    final snapshot = await FirebaseFirestore.instance
+        .collection('water_tracking')
+        .where('uid', isEqualTo: user!.uid)
+        .get();
+
+    final loadedRecords = snapshot.docs.map((doc) {
+      final data = doc.data();
+      return {
+        'date': data['date'] ?? '',
+        'amount': (data['amount'] ?? 0).toDouble(),
+        'timestamp': (data['timestamp'] as Timestamp).toDate(),
+      };
+    }).toList();
+
+    setState(() {
+      _waterRecords.clear();
+      _waterRecords.addAll(loadedRecords);
+      _isLoading = false;
+    });
+  }
+
+  Future<void> _addWater(double amount) async {
+    if (user == null) return;
+
+    final entry = {
+      'uid': user!.uid,
+      'date': _currentDate,
+      'amount': amount,
+      'timestamp': DateTime.now(),
+    };
+
+    // Add to local list
+    setState(() {
+      _waterRecords.add(entry);
+    });
+
+    // Save to Firebase
+    await FirebaseFirestore.instance
+        .collection('water_tracking')
+        .add(entry);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Vandens kiekis pridėtas')),
+    );
+  }
+
+  void _onAddPressed() {
     final amount = double.tryParse(_controller.text);
     if (amount != null && amount > 0) {
-      setState(() {
-        _waterRecords.add({
-          'date': _currentDate,
-          'amount': amount,
-          'timestamp': DateTime.now(),
-        });
-      });
+      _addWater(amount);
       _controller.clear();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Vandens kiekis pridėtas')),
-      );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Įveskite teigiamą skaičių')),
@@ -57,7 +102,7 @@ class _WaterTrackingPageState extends State<WaterTrackingPage> {
 
   List<String> _getSortedDates() {
     final dates = _aggregateWaterByDate().keys.toList();
-    dates.sort((a, b) => b.compareTo(a)); // Naujausia data pirmiau
+    dates.sort((a, b) => b.compareTo(a)); // Naujausia pirma
     return dates;
   }
 
@@ -70,12 +115,13 @@ class _WaterTrackingPageState extends State<WaterTrackingPage> {
       appBar: AppBar(
         title: const Text('Vandens Gėrimo Stebėjimas'),
       ),
-      body: Padding(
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Įvesties laukas ir mygtukas tik šiandienos datai
             if (sortedDates.isEmpty || sortedDates.first == _currentDate)
               Row(
                 children: [
@@ -91,13 +137,12 @@ class _WaterTrackingPageState extends State<WaterTrackingPage> {
                   ),
                   const SizedBox(width: 10),
                   ElevatedButton(
-                    onPressed: _addWater,
+                    onPressed: _onAddPressed,
                     child: const Icon(Icons.add),
                   ),
                 ],
               ),
             const SizedBox(height: 20),
-            // Lentelė su datomis ir vandens kiekiu
             Expanded(
               child: sortedDates.isEmpty
                   ? const Center(child: Text('Nėra įrašų'))
@@ -145,13 +190,7 @@ class _WaterTrackingPageState extends State<WaterTrackingPage> {
                                     onPressed: () {
                                       final amount = double.tryParse(dialogController.text);
                                       if (amount != null && amount > 0) {
-                                        setState(() {
-                                          _waterRecords.add({
-                                            'date': _currentDate,
-                                            'amount': amount,
-                                            'timestamp': DateTime.now(),
-                                          });
-                                        });
+                                        _addWater(amount);
                                         Navigator.pop(context);
                                       } else {
                                         ScaffoldMessenger.of(context).showSnackBar(

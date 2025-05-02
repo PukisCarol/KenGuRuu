@@ -39,6 +39,8 @@ dependencies:
   fluttertoast: ^8.2.12
   calendar_view: ^1.4.0
   cloud_firestore: ^5.6.5
+  intl: ^0.18.1
+  table_calendar: ^3.0.9
 
 dev_dependencies:
   flutter_test:
