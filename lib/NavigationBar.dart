@@ -28,12 +28,12 @@ class _NavigationBarAppState extends State<NavigationBarApp> {
 
   final List<Widget> _pages = [
     //LogInPage(),
+    WelcomePage(title: 'Welcome', username: '?',),
     ToDoListPage(title: 'Uzdtuoties sarasas'),
+    WaterTrackingPage(title: 'Vandens Sekimas'),
     DiaryPage(title: 'Dienoraštis'),
     CalendarPage(title: 'Kalendorius'),
     ProfilePage(title: 'Profilis'),
-    WaterTrackingPage(title: 'Vandens Sekimas'),
-    WelcomePage(title: 'Welcome', username: '?',),
   ];
 
   @override
@@ -46,12 +46,12 @@ class _NavigationBarAppState extends State<NavigationBarApp> {
         type: BottomNavigationBarType.fixed,
         items: [
           //BottomNavigationBarItem(icon: Icon(Icons.home), label: 'LogIn Langas'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Welcome'),
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Užduočių sąrašas'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Vandens sekimas'),
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Dienoraštis'),
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Kalendorius'),
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Profilis'),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Vandens sekimas'),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Welcome'),
         ],
       ),
     );
