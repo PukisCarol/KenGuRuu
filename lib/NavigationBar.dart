@@ -63,8 +63,8 @@ class _NavigationBarAppState extends State<NavigationBarApp> {
             selectedItemColor: Color(0xFFF06DE6),
             unselectedItemColor: Color(0xFF5E5F60),
             backgroundColor: Colors.transparent,
-            selectedLabelStyle: TextStyle(fontFamily: 'Figtree', fontSize: 10),
-            unselectedLabelStyle: TextStyle(fontFamily: 'Figtree', fontSize: 10),
+            selectedLabelStyle: TextStyle(fontFamily: 'Figtree', fontSize: 13),
+            unselectedLabelStyle: TextStyle(fontFamily: 'Figtree', fontSize: 12),
             items: [
               BottomNavigationBarItem(
                 icon: Image.asset('assets/Vector-5.png', width: 24, height: 24),
