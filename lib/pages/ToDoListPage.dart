@@ -95,77 +95,61 @@ class _ToDoListPageState extends State<ToDoListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.blue.shade100, Colors.blue.shade300],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.blue.shade100, Colors.blue.shade300],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
         ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'To do list',
-                    style: TextStyle(
-                      color: Colors.blueAccent,
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.5,
-                    ),
+      ),
+      child: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'To do list',
+                  style: TextStyle(
+                    color: Colors.blueAccent,
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.5,
                   ),
                 ),
               ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: tasks.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                          child: Container(
-                            child: MyTextBox(
-                              taskName: tasks[index]['task'],
-                              taskCompleted: tasks[index]['completed'],
-                              onChanged: (value) => checkBoxChanged(value, index),
-                              onDelete: (context) => deleteTask(index),
-                              onEdit: (context) => editTask(index),
-                              index: index,
-                            ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: tasks.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(30),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                        child: Container(
+                          child: MyTextBox(
+                            taskName: tasks[index]['task'],
+                            taskCompleted: tasks[index]['completed'],
+                            onChanged: (value) => checkBoxChanged(value, index),
+                            onDelete: (context) => deleteTask(index),
+                            onEdit: (context) => editTask(index),
+                            index: index,
                           ),
                         ),
                       ),
-                    );
-                  },
-                ),
+                    ),
+                  );
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
-      floatingActionButton: Container(
-        margin: EdgeInsets.only(bottom: 20, right: 10),
-        child: FloatingActionButton(
-          key: Key('add_task_button'),
-          onPressed: createNewTask,
-          backgroundColor: Colors.white.withOpacity(0.2),
-          child: Icon(Icons.add, color: Colors.blue),
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-          ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

@@ -30,7 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  google_fonts: ^4.0.0
+  google_fonts: ^6.2.1
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
@@ -72,6 +72,13 @@ flutter:
   uses-material-design: true
   assets:
     - assets/4534968.png
+    - assets/Vector.png
+    - assets/Vector-1.png
+    - assets/Vector-2.png
+    - assets/Vector-3.png
+    - assets/Vector-4.png
+    - assets/Vector-5.png
+    - assets/Frame.png
 
 
   # To add assets to your application, add an assets section, like this:
@@ -90,15 +97,20 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
+  #fonts:
+   # -family: FigTree
+    #fonts:
+      #-asset: assets/fonts/Figree-Variablefont_wght.ttf
+
+  fonts:
+     - family: FigTree
+       fonts:
+         - asset: assets/fonts/FigTree-VariableFont_wght.ttf
+         - asset: assets/fonts/FigTree-Italic-VariableFont_wght.ttf
   #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
+     - family: Pacifico
+       fonts:
+         - asset: assets/fonts/Pacifico-Regular.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #

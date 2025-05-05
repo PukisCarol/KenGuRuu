@@ -27,10 +27,9 @@ class _NavigationBarAppState extends State<NavigationBarApp> {
   }
 
   final List<Widget> _pages = [
-    //LogInPage(),
-    WelcomePage(title: 'Welcome', username: '?',),
-    ToDoListPage(title: 'Uzdtuoties sarasas'),
-    WaterTrackingPage(title: 'Vandens Sekimas'),
+    WelcomePage(title: 'Welcome', username: 'user'),
+    ToDoListPage(title: 'Užduočių sąrašas'),
+    WaterTrackingPage(title: 'Vandens sekimas'),
     DiaryPage(title: 'Dienoraštis'),
     CalendarPage(title: 'Kalendorius'),
     ProfilePage(title: 'Profilis'),
@@ -39,20 +38,61 @@ class _NavigationBarAppState extends State<NavigationBarApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _navigateBottomBar,
-        type: BottomNavigationBarType.fixed,
-        items: [
-          //BottomNavigationBarItem(icon: Icon(Icons.home), label: 'LogIn Langas'),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Welcome'),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Užduočių sąrašas'),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Vandens sekimas'),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Dienoraštis'),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Kalendorius'),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Profilis'),
+      body: Stack(
+        children: [
+          // Pagrindinis turinys
+          Container(
+            color: Colors.white,
+            child: IndexedStack(
+              index: _selectedIndex,
+              children: _pages,
+            ),
+          ),
         ],
+      ),
+      bottomNavigationBar: ClipRRect(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(12.0)),
+        child: Container(
+          color: Colors.white,
+          height: 80, // Padidintas aukštis, kad tilptų turinys
+          child: BottomNavigationBar(
+            elevation: 0,
+            currentIndex: _selectedIndex,
+            onTap: _navigateBottomBar,
+            type: BottomNavigationBarType.fixed,
+            selectedItemColor: Color(0xFFF06DE6),
+            unselectedItemColor: Color(0xFF5E5F60),
+            backgroundColor: Colors.transparent,
+            selectedLabelStyle: TextStyle(fontFamily: 'Figtree', fontSize: 10),
+            unselectedLabelStyle: TextStyle(fontFamily: 'Figtree', fontSize: 10),
+            items: [
+              BottomNavigationBarItem(
+                icon: Image.asset('assets/Vector-5.png', width: 24, height: 24),
+                label: 'Welcome',
+              ),
+              BottomNavigationBarItem(
+                icon: Image.asset('assets/Vector-4.png', width: 24, height: 24),
+                label: 'To do',
+              ),
+              BottomNavigationBarItem(
+                icon: Image.asset('assets/Vector-3.png', width: 24, height: 24),
+                label: 'Water',
+              ),
+              BottomNavigationBarItem(
+                icon: Image.asset('assets/Vector-2.png', width: 24, height: 24),
+                label: 'Diary',
+              ),
+              BottomNavigationBarItem(
+                icon: Image.asset('assets/Vector-1.png', width: 24, height: 24),
+                label: 'Calendar',
+              ),
+              BottomNavigationBarItem(
+                icon: Image.asset('assets/Vector.png', width: 24, height: 24),
+                label: 'Profile',
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
