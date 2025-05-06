@@ -27,7 +27,7 @@ class _NavigationBarAppState extends State<NavigationBarApp> {
   }
 
   final List<Widget> _pages = [
-    WelcomePage(title: 'Welcome', username: 'user'),
+    WelcomePage(title: 'Welcome'),
     ToDoListPage(title: 'Užduočių sąrašas'),
     WaterTrackingPage(title: 'Vandens sekimas'),
     DiaryPage(title: 'Dienoraštis'),

@@ -135,91 +135,106 @@ class _CalendarPageState extends State<CalendarPage> {
     entries.sort((a, b) => a.key.compareTo(b.key));
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        backgroundColor: const Color(0xFFEC407A),
-      ),
       backgroundColor: const Color(0xFFE6F0FA),
-      body: Column(
-        children: [
-          TableCalendar<Map<String, String>>(
-            firstDay: DateTime.utc(2020, 1, 1),
-            lastDay: DateTime.utc(2030, 12, 31),
-            focusedDay: _focusedDay,
-            selectedDayPredicate: (d) => isSameDay(_selectedDay, d),
-            onDaySelected: (sel, fok) {
-              setState(() {
-                _selectedDay = sel;
-                _focusedDay = fok;
-              });
-              _addEvent(sel);
-            },
-            eventLoader: _eventsForDay,
-            calendarStyle: CalendarStyle(
-              todayDecoration: BoxDecoration(
-                color: const Color(0xFFEC407A),
-                shape: BoxShape.circle,
-              ),
-              selectedDecoration: BoxDecoration(
-                color: const Color(0xFFEC407A),
-                shape: BoxShape.circle,
-              ),
-              markerDecoration: BoxDecoration(
-                color: const Color(0xFFEC407A),
-                shape: BoxShape.circle,
-              ),
-              markersMaxCount: 3,
-              outsideDaysVisible: false,
-            ),
-            headerStyle: const HeaderStyle(
-              formatButtonVisible: false,
-              titleCentered: true,
-              titleTextStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-          ),
-
-          const SizedBox(height: 12),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text('Visi įvykiai:', style: Theme.of(context).textTheme.titleLarge),
-            ),
-          ),
-          const SizedBox(height: 8),
-
-          Expanded(
-            child: ListView.builder(
-              itemCount: entries.length,
-              itemBuilder: (context, i) {
-                final date = entries[i].key;
-                final ev = entries[i].value;
-                final fmt = DateFormat('yyyy-MM-dd').format(date);
-                return Card(
-                  margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                  child: ListTile(
-                    title: Text(ev['title']!),
-                    subtitle: Text(ev['description']!),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(fmt),
-                        IconButton(
-                          icon: const Icon(Icons.edit, color: Colors.blue),
-                          onPressed: () => _editEvent(date, ev),
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.delete, color: Colors.red),
-                          onPressed: () => _deleteEvent(date, ev),
-                        ),
-                      ],
-                    ),
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SizedBox(height: 20),
+            // Title
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Calendar',
+                  style: TextStyle(
+                    fontSize: 34,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.pink[400],
+                    letterSpacing: 1.2,
                   ),
-                );
-              },
+                ),
+              ),
             ),
-          ),
-        ],
+            const SizedBox(height: 20),
+            TableCalendar<Map<String, String>>(
+              firstDay: DateTime.utc(2020, 1, 1),
+              lastDay: DateTime.utc(2030, 12, 31),
+              focusedDay: _focusedDay,
+              selectedDayPredicate: (d) => isSameDay(_selectedDay, d),
+              onDaySelected: (sel, fok) {
+                setState(() {
+                  _selectedDay = sel;
+                  _focusedDay = fok;
+                });
+                _addEvent(sel);
+              },
+              eventLoader: _eventsForDay,
+              calendarStyle: CalendarStyle(
+                todayDecoration: BoxDecoration(
+                  color: const Color(0xFFEC407A),
+                  shape: BoxShape.circle,
+                ),
+                selectedDecoration: BoxDecoration(
+                  color: const Color(0xFFEC407A),
+                  shape: BoxShape.circle,
+                ),
+                markerDecoration: BoxDecoration(
+                  color: const Color(0xFFEC407A),
+                  shape: BoxShape.circle,
+                ),
+                markersMaxCount: 3,
+                outsideDaysVisible: false,
+              ),
+              headerStyle: const HeaderStyle(
+                formatButtonVisible: false,
+                titleCentered: true,
+                titleTextStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ),
+            const SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text('Visi įvykiai:', style: Theme.of(context).textTheme.titleLarge),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Expanded(
+              child: ListView.builder(
+                itemCount: entries.length,
+                itemBuilder: (context, i) {
+                  final date = entries[i].key;
+                  final ev = entries[i].value;
+                  final fmt = DateFormat('yyyy-MM-dd').format(date);
+                  return Card(
+                    margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                    child: ListTile(
+                      title: Text(ev['title']!),
+                      subtitle: Text(ev['description']!),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(fmt),
+                          IconButton(
+                            icon: const Icon(Icons.edit, color: Colors.blue),
+                            onPressed: () => _editEvent(date, ev),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete, color: Colors.red),
+                            onPressed: () => _deleteEvent(date, ev),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

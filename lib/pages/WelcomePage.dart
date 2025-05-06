@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import '../Services/firestore_services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class WelcomePage extends StatefulWidget {
-  final String username;
   final String title;
 
-  const WelcomePage({super.key, required this.username, required this.title});
+  const WelcomePage({super.key, required this.title});
 
   @override
   State<WelcomePage> createState() => _WelcomePageState();
@@ -15,14 +16,39 @@ class WelcomePage extends StatefulWidget {
 
 class _WelcomePageState extends State<WelcomePage> {
   bool _showDescription = false;
+  String _username = 'Vartotojas'; // Numatytasis vardas, jei neįkeliamas
+  StreamSubscription<DocumentSnapshot>? _usernameSubscription;
 
   @override
   void initState() {
     super.initState();
-    // Po 5 sek. rodome programėlės aprašymą (antrą turinį)
+    _loadUsername();
     Timer(const Duration(seconds: 5), () {
       if (mounted) setState(() => _showDescription = true);
     });
+  }
+
+  void _loadUsername() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      _usernameSubscription = FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .snapshots()
+          .listen((doc) {
+        if (doc.exists && doc.data() != null) {
+          setState(() {
+            _username = doc.data()!['username'] ?? 'Vartotojas';
+          });
+        }
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _usernameSubscription?.cancel();
+    super.dispose();
   }
 
   Widget get _meditationView => Container(
@@ -63,7 +89,7 @@ class _WelcomePageState extends State<WelcomePage> {
         ),
         const SizedBox(height: 20),
         Text(
-          'Sveiki, ${widget.username}!',
+          'Sveiki, $_username!',
           style: GoogleFonts.pacifico(
             fontSize: 48,
             color: Color(0xFF5388A6),
