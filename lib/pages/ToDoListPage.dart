@@ -1,5 +1,3 @@
-//import 'dart:nativewrappers/_internal/vm/lib/internal_patch.dart';
-
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'ToDoPageButton.dart';
@@ -42,9 +40,7 @@ class _ToDoListPageState extends State<ToDoListPage> {
   }
 
   void saveNewTask() async {
-    if (_controller.text
-        .trim()
-        .isEmpty) return;
+    if (_controller.text.trim().isEmpty) return;
     await firestore.addTask(_controller.text);
     _controller.clear();
     Navigator.of(context).pop();
@@ -71,8 +67,7 @@ class _ToDoListPageState extends State<ToDoListPage> {
             ),
             TextButton(
               onPressed: () async {
-                await firestore.updateTask(
-                    tasks[index]['id'], editController.text);
+                await firestore.updateTask(tasks[index]['id'], editController.text);
                 Navigator.of(context).pop();
               },
               child: Text('Išsaugoti'),
@@ -143,8 +138,7 @@ class _ToDoListPageState extends State<ToDoListPage> {
                   itemCount: tasks.length,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(30),
                         child: BackdropFilter(
@@ -153,8 +147,7 @@ class _ToDoListPageState extends State<ToDoListPage> {
                             child: MyTextBox(
                               taskName: tasks[index]['task'],
                               taskCompleted: tasks[index]['completed'],
-                              onChanged: (value) =>
-                                  checkBoxChanged(value, index),
+                              onChanged: (value) => checkBoxChanged(value, index),
                               onDelete: (context) => deleteTask(index),
                               onEdit: (context) => editTask(index),
                               index: index,
