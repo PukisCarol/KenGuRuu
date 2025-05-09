@@ -42,7 +42,9 @@ class _ToDoListPageState extends State<ToDoListPage> {
   }
 
   void saveNewTask() async {
-    if (_controller.text.trim().isEmpty) return;
+    if (_controller.text
+        .trim()
+        .isEmpty) return;
     await firestore.addTask(_controller.text);
     _controller.clear();
     Navigator.of(context).pop();
@@ -69,7 +71,8 @@ class _ToDoListPageState extends State<ToDoListPage> {
             ),
             TextButton(
               onPressed: () async {
-                await firestore.updateTask(tasks[index]['id'], editController.text);
+                await firestore.updateTask(
+                    tasks[index]['id'], editController.text);
                 Navigator.of(context).pop();
               },
               child: Text('Išsaugoti'),
@@ -95,59 +98,76 @@ class _ToDoListPageState extends State<ToDoListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Colors.blue.shade100, Colors.blue.shade300],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
+    return Scaffold(
+      floatingActionButton: Container(
+        margin: const EdgeInsets.only(bottom: 20, right: 10),
+        child: FloatingActionButton(
+          key: const Key('add_task_button'),
+          onPressed: createNewTask,
+          backgroundColor: Colors.white.withOpacity(0.2),
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: const Icon(Icons.add, color: Colors.blue),
         ),
       ),
-      child: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'To do list',
-                  style: TextStyle(
-                    color: Colors.blueAccent,
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.5,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.blue.shade100, Colors.blue.shade300],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'To do list',
+                    style: TextStyle(
+                      color: Colors.blueAccent,
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.5,
+                    ),
                   ),
                 ),
               ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: tasks.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                        child: Container(
-                          child: MyTextBox(
-                            taskName: tasks[index]['task'],
-                            taskCompleted: tasks[index]['completed'],
-                            onChanged: (value) => checkBoxChanged(value, index),
-                            onDelete: (context) => deleteTask(index),
-                            onEdit: (context) => editTask(index),
-                            index: index,
+              Expanded(
+                child: ListView.builder(
+                  itemCount: tasks.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 8.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                          child: Container(
+                            child: MyTextBox(
+                              taskName: tasks[index]['task'],
+                              taskCompleted: tasks[index]['completed'],
+                              onChanged: (value) =>
+                                  checkBoxChanged(value, index),
+                              onDelete: (context) => deleteTask(index),
+                              onEdit: (context) => editTask(index),
+                              index: index,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
