@@ -33,7 +33,27 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> signout() async {
-    await AuthService().signout(context: context);
+    final shouldSignOut = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Patvirtinimas'),
+        content: Text('Ar tikrai norite atsijungti?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text('Ne'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text('Taip'),
+          ),
+        ],
+      ),
+    );
+
+    if (shouldSignOut == true) {
+      await AuthService().signout(context: context);
+    }
   }
 
   List names = [

@@ -51,4 +51,62 @@ class FirestoreService {
     await FirebaseFirestore.instance.collection('users').doc(userId).get();
     return userDoc.data()?['username'];
   }
+
+  Future<DocumentReference> addCalendarEvent(DateTime date, String title, String description) {
+    return _db.collection('users').doc(userId).collection('calendar_events').add({
+      'title': title,
+      'description': description,
+      'date': Timestamp.fromDate(date),
+      'userId': userId, // Add userId field
+      'created_at': FieldValue.serverTimestamp(),
+    });
+  }
+
+  Future<void> deleteCalendarEvent(String eventId) async {
+    await _db.collection('users').doc(userId).collection('calendar_events').doc(eventId).delete();
+  }
+
+  Future<void> updateCalendarEvent(String eventId, String title, String description) async {
+    await _db.collection('users').doc(userId).collection('calendar_events').doc(eventId).update({
+      'title': title,
+      'description': description,
+    });
+  }
+
+  Future<List<Map<String, dynamic>>> fetchCalendarEvents() async {
+    final snapshot = await _db
+        .collection('users')
+        .doc(userId)
+        .collection('calendar_events')
+        .orderBy('date')
+        .get();
+
+    return snapshot.docs.map((doc) {
+      final data = doc.data();
+      return {
+        'id': doc.id,
+        'title': data['title'],
+        'description': data['description'],
+        'date': (data['date'] as Timestamp).toDate(),
+      };
+    }).toList();
+  }
+  Stream<List<Map<String, dynamic>>> getCalendarEvents() {
+    return _db
+        .collection('users')
+        .doc(userId)
+        .collection('calendar_events')
+        .orderBy('date')
+        .snapshots()
+        .map((snapshot) =>
+        snapshot.docs.map((doc) {
+          final data = doc.data();
+          return {
+            'id': doc.id,
+            'title': data['title'],
+            'description': data['description'],
+            'date': (data['date'] as Timestamp).toDate(),
+          };
+        }).toList());
+  }
 }
