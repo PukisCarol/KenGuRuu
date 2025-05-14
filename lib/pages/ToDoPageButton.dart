@@ -24,6 +24,7 @@ class ButtonDialog extends StatelessWidget {
           children: [
             TextField(
               controller: controller,
+              autofocus: true,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: "Pridėti užduotį...",

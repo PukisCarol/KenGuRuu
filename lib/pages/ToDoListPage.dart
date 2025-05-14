@@ -30,13 +30,25 @@ class _ToDoListPageState extends State<ToDoListPage> {
     super.initState();
     firestore.getTasks().listen((loadedTasks) {
       setState(() {
-        tasks = loadedTasks;
+        tasks = sortTasks(loadedTasks);
       });
     });
   }
 
+  List<Map<String, dynamic>> sortTasks(List<Map<String, dynamic>> taskList) {
+    // Sort tasks: incomplete first, then completed
+    taskList.sort((a, b) {
+      if (a['completed'] == b['completed']) return 0;
+      return a['completed'] ? 1 : -1;
+    });
+    return taskList;
+  }
+
   void checkBoxChanged(bool? value, int index) async {
     await firestore.toggleTaskCompleted(tasks[index]['id'], value ?? false);
+    setState(() {
+      tasks = sortTasks(tasks);
+    });
   }
 
   void saveNewTask() async {
