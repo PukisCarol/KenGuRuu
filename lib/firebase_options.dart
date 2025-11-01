@@ -48,7 +48,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: '',
-    appId: '1:576301422095:web:1c4da4f6473a296d30b57a',
+    appId: '',
     messagingSenderId: '576301422095',
     projectId: 'kenguruu-d3874',
     authDomain: 'kenguruu-d3874.firebaseapp.com',
@@ -58,7 +58,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: '',
-    appId: '1:576301422095:android:850b414794a9d67030b57a',
+    appId: '',
     messagingSenderId: '576301422095',
     projectId: 'kenguruu-d3874',
     storageBucket: 'kenguruu-d3874.firebasestorage.app',
@@ -66,7 +66,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions windows = FirebaseOptions(
     apiKey: '',
-    appId: '1:576301422095:web:600cccf9812b311a30b57a',
+    appId: ,
     messagingSenderId: '576301422095',
     projectId: 'kenguruu-d3874',
     authDomain: 'kenguruu-d3874.firebaseapp.com',
