@@ -3,10 +3,14 @@ import 'package:kenguruu/pages/CalendarPage.dart';
 import 'package:kenguruu/pages/WaterTrackingPage.dart';
 import 'pages/ToDoListPage.dart';
 import 'pages/LogInPage.dart';
+import 'pages/todolist_page.dart';
 import 'pages/DiaryPage.dart';
 import 'pages/ProfilePage.dart';
 import 'pages/WaterTrackingPage.dart';
 import 'pages/WelcomePage.dart';
+import 'pages/todolist_store.dart';
+import 'data/todolist_repository_implementation.dart';
+import 'services/firestore_services.dart';
 
 class NavigationBarApp extends StatefulWidget {
   const NavigationBarApp({super.key, required this.title});
@@ -19,24 +23,33 @@ class NavigationBarApp extends StatefulWidget {
 
 class _NavigationBarAppState extends State<NavigationBarApp> {
   int _selectedIndex = 0;
+  late final TodoStore to_do_store;
+  @override
+  void initState() {
+    super.initState();
 
+    to_do_store = TodoStore(
+      TodoRepositoryImpl(
+        FirestoreService(),
+      ),
+    );
+  }
   void _navigateBottomBar(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
 
-  final List<Widget> _pages = [
-    WelcomePage(title: 'Welcome'),
-    ToDoListPage(title: 'Užduočių sąrašas'),
-    WaterTrackingPage(title: 'Vandens sekimas'),
-    DiaryPage(title: 'Dienoraštis'),
-    CalendarPage(title: 'Kalendorius'),
-    ProfilePage(title: 'Profilis'),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final List<Widget> _pages = [
+      WelcomePage(title: 'Welcome'),
+      todolist_page(store: to_do_store),
+      WaterTrackingPage(title: 'Vandens sekimas'),
+      DiaryPage(title: 'Dienoraštis'),
+      CalendarPage(title: 'Kalendorius'),
+      ProfilePage(title: 'Profilis'),
+    ];
     return Scaffold(
       body: Stack(
         children: [
