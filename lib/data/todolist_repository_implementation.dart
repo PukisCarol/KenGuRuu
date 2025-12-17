@@ -17,17 +17,32 @@ class TodoRepositoryImpl implements TaskRepository {
 
   @override
   Future<void> addTask(String title) {
-    return firestore.addTask(title);
+    final task = TaskModel(
+      id: '',
+      title: title,
+      completed: false,
+    );
+
+    return firestore.addTask(task.toMap());
   }
 
   @override
   Future<void> updateTask(Task task) {
-    return firestore.updateTask(task.id, task.title);
+    return firestore.updateTask(
+      task.id,
+      TaskModel(
+        id: task.id,
+        title: task.title,
+        completed: task.completed,
+      ).toMap(),
+    );
   }
 
   @override
   Future<void> toggleCompleted(String id, bool completed) {
-    return firestore.toggleTaskCompleted(id, completed);
+    return firestore.updateTask(id, {
+      'completed': completed,
+    });
   }
 
   @override

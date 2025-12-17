@@ -5,7 +5,49 @@ class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final String userId = FirebaseAuth.instance.currentUser!.uid;
 
-  Future<void> addTask(String taskName, {bool completed = false}) async {
+  Future<void> addTask(Map<String, dynamic> data) {
+    return _db
+        .collection('users')
+        .doc(userId)
+        .collection('tasks')
+        .add({
+      ...data,
+      'timestamp': FieldValue.serverTimestamp(),
+    });
+  }
+
+  Future<void> deleteTask(String id) async {
+    await _db.collection('users').doc(userId).collection('tasks').doc(id).delete();
+  }
+
+  Future<void> updateTask(String id, Map<String, dynamic> data) {
+    return _db
+        .collection('users')
+        .doc(userId)
+        .collection('tasks')
+        .doc(id)
+        .update(data);
+  }
+
+  Stream<List<Map<String, dynamic>>> getTasks() {
+    return _db
+        .collection('users')
+        .doc(userId)
+        .collection('tasks')
+        .orderBy('timestamp')
+        .snapshots()
+        .map((snapshot) =>
+        snapshot.docs.map((doc) {
+          final data = doc.data();
+          return {
+            'id': doc.id,
+            ...data,
+          };
+        }).toList());
+  }
+
+
+  Future<void> addTaskOld(String taskName, {bool completed = false}) async {
     await _db.collection('users').doc(userId).collection('tasks').add({
       'task': taskName,
       'completed': completed,
@@ -13,23 +55,23 @@ class FirestoreService {
     });
   }
 
-  Future<void> deleteTask(String docId) async {
+  Future<void> deleteTaskOld(String docId) async {
     await _db.collection('users').doc(userId).collection('tasks').doc(docId).delete();
   }
 
-  Future<void> updateTask(String docId, String newTask) async {
+  Future<void> updateTaskOld(String docId, String newTask) async {
     await _db.collection('users').doc(userId).collection('tasks').doc(docId).update({
       'task': newTask,
     });
   }
 
-  Future<void> toggleTaskCompleted(String docId, bool completed) async {
+  Future<void> toggleTaskCompletedOld(String docId, bool completed) async {
     await _db.collection('users').doc(userId).collection('tasks').doc(docId).update({
       'completed': completed,
     });
   }
 
-  Stream<List<Map<String, dynamic>>> getTasks() {
+  Stream<List<Map<String, dynamic>>> getTasksOld() {
     return _db
         .collection('users')
         .doc(userId)

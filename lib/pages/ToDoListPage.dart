@@ -39,7 +39,7 @@ class _ToDoListPageState extends State<ToDoListPage> {
       errorMessage = null;
     });
     try {
-      firestore.getTasks().listen((loadedTasks) {
+      firestore.getTasksOld().listen((loadedTasks) {
         setState(() {
           tasks = sortTasks(loadedTasks);
           isLoading = false;
@@ -70,7 +70,7 @@ class _ToDoListPageState extends State<ToDoListPage> {
 
   void checkBoxChanged(bool? value, int index) async {
     try {
-      await firestore.toggleTaskCompleted(tasks[index]['id'], value ?? false);
+      await firestore.toggleTaskCompletedOld(tasks[index]['id'], value ?? false);
       setState(() {
         tasks = sortTasks(tasks);
       });
@@ -82,7 +82,7 @@ class _ToDoListPageState extends State<ToDoListPage> {
   void saveNewTask() async {
     if (_controller.text.trim().isEmpty) return;
     try {
-      await firestore.addTask(_controller.text);
+      await firestore.addTaskOld(_controller.text);
       _controller.clear();
       Navigator.of(context).pop();
     } catch (e) {
@@ -92,7 +92,7 @@ class _ToDoListPageState extends State<ToDoListPage> {
 
   void deleteTask(int index) async {
     try {
-      await firestore.deleteTask(tasks[index]['id']);
+      await firestore.deleteTaskOld(tasks[index]['id']);
     } catch (e) {
       _showErrorSnackBar('Failed to delete task');
     }
@@ -116,7 +116,7 @@ class _ToDoListPageState extends State<ToDoListPage> {
             TextButton(
               onPressed: () async {
                 try {
-                  await firestore.updateTask(tasks[index]['id'], editController.text);
+                  await firestore.updateTaskOld(tasks[index]['id'], editController.text);
                   Navigator.of(context).pop();
                 } catch (e) {
                   _showErrorSnackBar('Failed to update task');
